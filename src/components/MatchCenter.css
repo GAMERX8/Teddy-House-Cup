@@ -1,0 +1,100 @@
+.match-center {
+    padding: var(--spacing-lg) var(--spacing-sm);
+    background: linear-gradient(to bottom, var(--color-bg), #0f0f0f);
+    color: white;
+}
+
+.match-list {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.match-card {
+    background-color: var(--color-surface);
+    border-radius: 8px;
+    padding: var(--spacing-md);
+    margin-bottom: var(--spacing-sm);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-left: 4px solid var(--color-border);
+    transition: transform var(--transition-fast);
+}
+
+.match-card:hover {
+    transform: scale(1.02);
+    background-color: var(--color-surface-hover);
+}
+
+.match-card.upcoming {
+    border-left-color: var(--color-primary);
+    background: linear-gradient(90deg, rgba(255, 94, 0, 0.1), rgba(0, 0, 0, 0));
+}
+
+.match-date-col {
+    text-align: center;
+    width: 100px;
+}
+
+.match-day {
+    display: block;
+    font-weight: bold;
+    color: var(--color-text-dim);
+}
+
+.match-time {
+    font-size: 0.9rem;
+    color: var(--color-text-dim);
+}
+
+.match-result {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-heading);
+    font-size: 2rem;
+    letter-spacing: 2px;
+}
+
+.score {
+    margin: 0 1rem;
+}
+
+.score.winner {
+    color: var(--color-primary);
+}
+
+.team-short {
+    width: 60px;
+    text-align: center;
+}
+
+.status-badge {
+    background-color: #333;
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.upcoming .status-badge {
+    background-color: var(--color-primary);
+    color: white;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.7;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
