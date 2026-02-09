@@ -50,6 +50,7 @@ const Navbar = () => {
           <li><NavLink to="/clasificacion" className={({ isActive }) => `navbar-link ${isActive ? 'active' : ''}`}>Clasificación</NavLink></li>
           <li><NavLink to="/estadisticas" className={({ isActive }) => `navbar-link ${isActive ? 'active' : ''}`}>Estadísticas</NavLink></li>
           <li><NavLink to="/torneo" className={({ isActive }) => `navbar-link ${isActive ? 'active' : ''}`}>Torneo</NavLink></li>
+          <li><NavLink to="/totm" className={({ isActive }) => `navbar-link ${isActive ? 'active' : ''}`}>TOTM</NavLink></li>
 
           <li className="navbar-mobile-actions">
             {settings.mvpVoting && (
@@ -481,8 +482,7 @@ const Navbar = () => {
                   boxShadow: `0 0 50px rgba(212, 175, 55, 0.15), 0 20px 80px rgba(0,0,0,0.9)`,
                   animation: 'scaleIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)',
                   overflow: 'hidden',
-                  // Using pseudo-border hack because borderImage doesn't support borderRadius well
-                  border: `1.5px solid ${goldColor}`
+                  border: `2px solid ${goldColor}`
                 }}
                 onClick={e => e.stopPropagation()}
                 className="custom-scrollbar"

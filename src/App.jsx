@@ -11,6 +11,7 @@ import Partidos from './pages/Partidos';
 import Clasificacion from './pages/Clasificacion';
 import Estadisticas from './pages/Estadisticas';
 import Torneo from './pages/Torneo';
+import Totm from './pages/Totm';
 import Votar from './pages/Votar';
 
 import WinnerPopup from './components/WinnerPopup';
@@ -42,6 +43,7 @@ function App() {
           <Route path="/clasificacion" element={<Clasificacion />} />
           <Route path="/estadisticas" element={<Estadisticas />} />
           <Route path="/torneo" element={<Torneo />} />
+          <Route path="/totm" element={<Totm />} />
           <Route path="/votar" element={<Votar />} />
         </Routes>
       </div>

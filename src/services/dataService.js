@@ -164,3 +164,20 @@ export const getVoteResults = async () => {
         return [];
     }
 };
+
+export const subscribeToTOTM = (callback) => {
+    try {
+        const unsubscribe = onSnapshot(doc(db, "settings", "totm"), (snapshot) => {
+            if (snapshot.exists()) {
+                callback(snapshot.data());
+            } else {
+                callback({ formation: "4-3-3", players: {} });
+            }
+        });
+        return unsubscribe;
+    } catch (error) {
+        console.error("Error subscribing to TOTM:", error);
+        callback({ formation: "4-3-3", players: {} });
+        return () => { };
+    }
+};
