@@ -11,6 +11,8 @@ const formations = {
     '4-2-3-1': ['PO', 'DF', 'DF', 'DF', 'DF', 'MC', 'MC', 'MC', 'MC', 'MC', 'DL'],
     '4-3-1-2': ['PO', 'DF', 'DF', 'DF', 'DF', 'MC', 'MC', 'MC', 'MC', 'DL', 'DL'],
     '4-5-1': ['PO', 'DF', 'DF', 'DF', 'DF', 'MC', 'MC', 'MC', 'MC', 'MC', 'DL'],
+    '4-1-2-1-2': ['PO', 'DF', 'DF', 'DF', 'DF', 'MC', 'MC', 'MC', 'MC', 'DL', 'DL'],
+    '5-2-1-2': ['PO', 'DF', 'DF', 'DF', 'DF', 'DF', 'MC', 'MC', 'MC', 'DL', 'DL'],
 };
 
 import totmBackground from '../assets/Inform.png';
@@ -347,6 +349,46 @@ const Totm = () => {
                 if (index === 10) {
                     top = '15%';
                     left = '50%';
+                }
+            } else if (currentFormation === '4-1-2-1-2') {
+                if (index >= 1 && index <= 4) {
+                    const curve = (index === 1 || index === 4) ? '75%' : '83%';
+                    top = curve;
+                    left = `${12 + (index - 1) * (76 / 3)}%`;
+                }
+                if (index === 5) { // CDM
+                    top = '65%';
+                    left = '50%';
+                }
+                if (index >= 6 && index <= 7) { // LM / RM
+                    top = '48%';
+                    left = `${10 + (index - 6) * 80}%`;
+                }
+                if (index === 8) { // CAM
+                    top = '32%';
+                    left = '50%';
+                }
+                if (index >= 9 && index <= 10) {
+                    top = '15%';
+                    left = `${32 + (index - 9) * 36}%`;
+                }
+            } else if (currentFormation === '5-2-1-2') {
+                if (index >= 1 && index <= 5) {
+                    const curve = (index === 1 || index === 5) ? '72%' : (index === 3 ? '83%' : '78%');
+                    top = curve;
+                    left = `${8 + (index - 1) * (84 / 4)}%`;
+                }
+                if (index >= 6 && index <= 7) {
+                    top = '50%';
+                    left = `${32 + (index - 6) * 36}%`;
+                }
+                if (index === 8) {
+                    top = '32%';
+                    left = '50%';
+                }
+                if (index >= 9 && index <= 10) {
+                    top = '15%';
+                    left = `${32 + (index - 9) * 36}%`;
                 }
             }
 
