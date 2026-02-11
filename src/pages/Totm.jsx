@@ -1139,15 +1139,15 @@ const Totm = () => {
 
                     .pitch-perspective-container {
                         height: 700px;
-                        max-width: 700px;
+                        max-width: 95%;
                     }
 
                     .totm-card {
-                        transform: translateX(-50%) translateY(-50%) scale(0.7);
+                        transform: rotateX(-25deg) scale(0.75);
                     }
 
                     .totm-card:hover {
-                        transform: translateX(-50%) translateY(-50%) scale(0.85) rotateY(10deg);
+                        transform: rotateX(-20deg) scale(0.85) rotateY(10deg);
                     }
                 }
 
@@ -1335,7 +1335,7 @@ const Totm = () => {
                     .pitch-perspective-container {
                         height: 550px;
                         margin: 0 auto;
-                        max-width: 100%;
+                        max-width: 92%;
                     }
 
                     .pitch {
@@ -1345,11 +1345,11 @@ const Totm = () => {
                     .totm-card {
                         width: 140px;
                         height: 195px;
-                        transform: translateX(-50%) translateY(-50%) scale(0.6);
+                        transform: rotateX(-15deg) scale(0.6);
                     }
 
                     .totm-card:hover {
-                        transform: translateX(-50%) translateY(-50%) scale(0.75) rotateY(5deg);
+                        transform: rotateX(-15deg) scale(0.75) rotateY(5deg);
                     }
 
                     .totm-rating {
@@ -1461,16 +1461,17 @@ const Totm = () => {
 
                     .pitch-perspective-container {
                         height: 450px;
+                        max-width: 90%;
                     }
 
                     .totm-card {
                         width: 120px;
                         height: 167px;
-                        transform: translateX(-50%) translateY(-50%) scale(0.5);
+                        transform: rotateX(-15deg) scale(0.55);
                     }
 
                     .totm-card:hover {
-                        transform: translateX(-50%) translateY(-50%) scale(0.6) rotateY(5deg);
+                        transform: rotateX(-15deg) scale(0.65) rotateY(5deg);
                     }
 
                     .totm-rating {
