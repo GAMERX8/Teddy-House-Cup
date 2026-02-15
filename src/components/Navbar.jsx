@@ -35,7 +35,7 @@ const Navbar = () => {
   return (
     <nav className="navbar">
       <div className="container navbar-container">
-        <Link to="/" className="navbar-logo">
+        <Link to="/" className="navbar-logo" onClick={() => setIsOpen(false)}>
           TH <span>CUP</span>
         </Link>
 
@@ -46,13 +46,13 @@ const Navbar = () => {
         </div>
 
         <ul className={`navbar-menu ${isOpen ? 'open' : ''}`}>
-          <li><NavLink to="/equipos" className={({ isActive }) => `navbar-link ${isActive ? 'active' : ''}`}>Equipos</NavLink></li>
-          <li><NavLink to="/jugadores" className={({ isActive }) => `navbar-link ${isActive ? 'active' : ''}`}>Jugadores</NavLink></li>
-          <li><NavLink to="/partidos" className={({ isActive }) => `navbar-link ${isActive ? 'active' : ''}`}>Partidos</NavLink></li>
-          <li><NavLink to="/clasificacion" className={({ isActive }) => `navbar-link ${isActive ? 'active' : ''}`}>Clasificación</NavLink></li>
-          <li><NavLink to="/estadisticas" className={({ isActive }) => `navbar-link ${isActive ? 'active' : ''}`}>Estadísticas</NavLink></li>
-          <li><NavLink to="/torneo" className={({ isActive }) => `navbar-link ${isActive ? 'active' : ''}`}>Torneo</NavLink></li>
-          <li><NavLink to="/totm" className={({ isActive }) => `navbar-link ${isActive ? 'active' : ''}`}>TOTM</NavLink></li>
+          <li><NavLink to="/equipos" className={({ isActive }) => `navbar-link ${isActive ? 'active' : ''}`} onClick={() => setIsOpen(false)}>Equipos</NavLink></li>
+          <li><NavLink to="/jugadores" className={({ isActive }) => `navbar-link ${isActive ? 'active' : ''}`} onClick={() => setIsOpen(false)}>Jugadores</NavLink></li>
+          <li><NavLink to="/partidos" className={({ isActive }) => `navbar-link ${isActive ? 'active' : ''}`} onClick={() => setIsOpen(false)}>Partidos</NavLink></li>
+          <li><NavLink to="/clasificacion" className={({ isActive }) => `navbar-link ${isActive ? 'active' : ''}`} onClick={() => setIsOpen(false)}>Clasificación</NavLink></li>
+          <li><NavLink to="/estadisticas" className={({ isActive }) => `navbar-link ${isActive ? 'active' : ''}`} onClick={() => setIsOpen(false)}>Estadísticas</NavLink></li>
+          <li><NavLink to="/torneo" className={({ isActive }) => `navbar-link ${isActive ? 'active' : ''}`} onClick={() => setIsOpen(false)}>Torneo</NavLink></li>
+          <li><NavLink to="/totm" className={({ isActive }) => `navbar-link ${isActive ? 'active' : ''}`} onClick={() => setIsOpen(false)}>TOTM</NavLink></li>
 
           <li className="navbar-mobile-actions">
             {settings.mvpVoting && (
@@ -335,13 +335,26 @@ const Navbar = () => {
             <button
               onClick={() => setShowAppModal(false)}
               style={{
-                background: 'transparent',
-                color: '#666',
+                background: '#ff4444',
+                color: '#fff',
                 border: 'none',
-                marginTop: '1.5rem',
+                marginTop: '2rem',
+                padding: '10px 25px',
+                borderRadius: '8px',
+                fontWeight: 'bold',
                 cursor: 'pointer',
                 fontSize: '0.9rem',
-                textDecoration: 'underline'
+                textTransform: 'uppercase',
+                transition: 'background 0.2s, transform 0.2s',
+                letterSpacing: '1px'
+              }}
+              onMouseEnter={e => {
+                e.currentTarget.style.background = '#ff6666';
+                e.currentTarget.style.transform = 'scale(1.05)';
+              }}
+              onMouseLeave={e => {
+                e.currentTarget.style.background = '#ff4444';
+                e.currentTarget.style.transform = 'scale(1)';
               }}
             >
               Cerrar
