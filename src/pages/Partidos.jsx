@@ -21,14 +21,12 @@ const Partidos = () => {
         if (isNaN(date)) return 'Desconocida';
         const year = date.getFullYear();
         const month = date.getMonth(); // 0-indexed
-        // Season usually starts in July (6)
         return month < 6 ? `${year - 1}/${year.toString().slice(-2)}` : `${year}/${(year + 1).toString().slice(-2)}`;
     };
 
     useEffect(() => {
         const unsubscribeTeams = subscribeToTeams(setTeams);
         const unsubscribeMatches = subscribeToMatches((data) => {
-            // Sort matches by date and time
             const sortedMatches = [...data].sort((a, b) => {
                 const dateA = new Date(`${a.date || '2024-01-01'}T${a.time || '00:00'}`);
                 const dateB = new Date(`${b.date || '2024-01-01'}T${b.time || '00:00'}`);
@@ -36,7 +34,6 @@ const Partidos = () => {
             });
             setMatches(sortedMatches);
 
-            // Set default selected season to the latest available one
             if (sortedMatches.length > 0) {
                 const seasons = Array.from(new Set(sortedMatches.map(m => getSeasonFromDate(m.date))));
                 seasons.sort().reverse();
@@ -74,84 +71,86 @@ const Partidos = () => {
                 alignItems: 'center',
                 marginBottom: '2rem',
                 flexWrap: 'wrap',
-                gap: '1rem'
+                gap: '1.5rem'
             }}>
-                <button
-                    onClick={() => {
-                        const nextMatch = filteredMatches.find(m => m.status === 'Upcoming') || filteredMatches[0];
-                        setSelectedMatchForCalendar(nextMatch);
-                        setShowCalendarPopup(true);
-                    }}
-                    style={{
-                        background: '#fbbd08',
-                        color: '#000',
-                        border: 'none',
-                        padding: '10px 20px',
-                        borderRadius: '8px',
-                        fontWeight: 'bold',
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '8px',
-                        fontSize: '0.9rem',
-                        textTransform: 'none'
-                    }}
-                >
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-                        <line x1="16" y1="2" x2="16" y2="6"></line>
-                        <line x1="8" y1="2" x2="8" y2="6"></line>
-                        <line x1="3" y1="10" x2="21" y2="10"></line>
-                        <line x1="12" y1="14" x2="12" y2="14.01"></line>
-                    </svg>
-                    Añadir al calendario
-                </button>
+                <h1 className="section-title" style={{ margin: 0 }}>CALENDARIO</h1>
 
-                <div style={{ display: 'flex', gap: '2px' }}>
-                    <div style={{
-                        background: '#fbbd08',
-                        color: '#000',
-                        padding: '10px 20px',
-                        borderRadius: '8px 0 0 8px',
-                        fontWeight: 'bold',
-                        fontSize: '0.9rem'
-                    }}>
-                        TH Cup
-                    </div>
-                    <select
-                        value={selectedSeason}
-                        onChange={(e) => setSelectedSeason(e.target.value)}
+                <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', alignItems: 'center' }}>
+                    <button
+                        onClick={() => {
+                            const nextMatch = filteredMatches.find(m => m.status === 'Upcoming') || filteredMatches[0];
+                            setSelectedMatchForCalendar(nextMatch);
+                            setShowCalendarPopup(true);
+                        }}
                         style={{
-                            background: 'rgba(255,255,255,0.1)',
-                            color: '#fff',
-                            padding: '10px 20px',
-                            borderRadius: '0 8px 8px 0',
-                            fontWeight: 'bold',
-                            fontSize: '0.9rem',
+                            background: '#fbbd08',
+                            color: '#000',
                             border: 'none',
-                            outline: 'none',
-                            cursor: 'pointer',
-                            appearance: 'none',
-                            backgroundImage: 'url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2212%22%20height%3D%2212%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22white%22%20stroke-width%3D%223%22%3E%3Cpath%20d%3D%22M6%209l6%206%206-6%22%20/%3E%3C/svg%3E")',
-                            backgroundRepeat: 'no-repeat',
-                            backgroundPosition: 'right 12px center',
-                            paddingRight: '35px'
+                            padding: '10px 20px',
+                            borderRadius: '8px',
+                            fontWeight: 'bold',
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '8px',
+                            fontSize: '0.9rem',
                         }}
                     >
-                        {availableSeasons.map(season => (
-                            <option key={season} value={season} style={{ background: '#111' }}>{season}</option>
-                        ))}
-                    </select>
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                            <line x1="16" y1="2" x2="16" y2="6"></line>
+                            <line x1="8" y1="2" x2="8" y2="6"></line>
+                            <line x1="3" y1="10" x2="21" y2="10"></line>
+                        </svg>
+                        Exportar
+                    </button>
+
+                    <div style={{ display: 'flex', gap: '2px' }}>
+                        <div style={{
+                            background: '#fbbd08',
+                            color: '#000',
+                            padding: '10px 20px',
+                            borderRadius: '8px 0 0 8px',
+                            fontWeight: 'bold',
+                            fontSize: '0.9rem'
+                        }}>
+                            TH Cup
+                        </div>
+                        <select
+                            value={selectedSeason}
+                            onChange={(e) => setSelectedSeason(e.target.value)}
+                            style={{
+                                background: 'rgba(255,255,255,0.1)',
+                                color: '#fff',
+                                padding: '10px 20px',
+                                borderRadius: '0 8px 8px 0',
+                                fontWeight: 'bold',
+                                fontSize: '0.9rem',
+                                border: 'none',
+                                outline: 'none',
+                                cursor: 'pointer',
+                                appearance: 'none',
+                                backgroundImage: 'url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2212%22%20height%3D%2212%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22white%22%20stroke-width%3D%223%22%3E%3Cpath%20d%3D%22M6%209l6%206%206-6%22%20/%3E%3C/svg%3E")',
+                                backgroundRepeat: 'no-repeat',
+                                backgroundPosition: 'right 12px center',
+                                paddingRight: '35px'
+                            }}
+                        >
+                            {availableSeasons.map(season => (
+                                <option key={season} value={season} style={{ background: '#111' }}>{season}</option>
+                            ))}
+                        </select>
+                    </div>
                 </div>
             </div>
 
             {/* Ronda Tab */}
-            <div style={{ marginBottom: '1.5rem' }}>
+            <div style={{ marginBottom: '2rem' }}>
                 <span style={{
                     border: '1px solid #fbbd08',
                     color: '#fbbd08',
-                    padding: '4px 12px',
-                    borderRadius: '4px',
-                    fontSize: '0.8rem',
+                    padding: '6px 16px',
+                    borderRadius: '6px',
+                    fontSize: '0.9rem',
                     fontWeight: 'bold',
                     textTransform: 'uppercase'
                 }}>
@@ -159,89 +158,109 @@ const Partidos = () => {
                 </span>
             </div>
 
-            {/* Matches Table */}
-            <div className="glass-card animate-fade-up" style={{ padding: '0', overflowX: 'auto', background: 'rgba(255,255,255,0.02)' }}>
-                <table style={{ width: '100%', borderCollapse: 'collapse' }}>
-                    <thead>
-                        <tr style={{ borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
-                            <th style={{ padding: '1.2rem', textAlign: 'left', color: '#666', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '1px' }}>Fecha</th>
-                            <th style={{ padding: '1.2rem', textAlign: 'left', color: '#666', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '1px' }}>Horario</th>
-                            <th style={{ padding: '1.2rem', textAlign: 'center', color: '#666', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '1px' }}>Partido</th>
-                            <th style={{ padding: '1.2rem', textAlign: 'right', color: '#666', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '1px' }}>Estado</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {filteredMatches.map((match) => {
-                            const teamA = getTeam(match.teamA);
-                            const teamB = getTeam(match.teamB);
+            {/* Responsive Matches List */}
+            <div className="matches-grid" style={{ display: 'grid', gap: '1rem' }}>
+                {filteredMatches.map((match) => {
+                    const teamA = getTeam(match.teamA);
+                    const teamB = getTeam(match.teamB);
 
-                            // Format date avoiding timezone shift
-                            let formattedDate = match.date;
-                            if (match.date && match.date.includes('-')) {
-                                const [year, month, day] = match.date.split('-');
-                                const dateObj = new Date(year, month - 1, day);
-                                formattedDate = dateObj.toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: '2-digit' });
-                            }
+                    let formattedDate = match.date;
+                    if (match.date && match.date.includes('-')) {
+                        const [year, month, day] = match.date.split('-');
+                        const dateObj = new Date(year, month - 1, day);
+                        formattedDate = dateObj.toLocaleDateString('es-ES', { day: '2-digit', month: 'short' });
+                    }
 
-                            return (
-                                <tr key={match.id} style={{ borderBottom: '1px solid rgba(255,255,255,0.03)', background: 'rgba(255,255,255,0.01)' }}>
-                                    <td style={{ padding: '1.5rem 1.2rem', color: '#fff', fontSize: '1rem' }}>
-                                        {formattedDate}
-                                    </td>
-                                    <td style={{ padding: '1.5rem 1.2rem', color: '#fff', fontSize: '1rem' }}>
-                                        {match.time}
-                                    </td>
-                                    <td style={{ padding: '1.5rem 1.2rem' }}>
-                                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '2rem' }}>
-                                            {/* Local */}
-                                            <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', flex: 1, justifyContent: 'flex-end' }}>
-                                                <span style={{
-                                                    fontFamily: 'var(--font-heading)',
-                                                    fontSize: '1.4rem',
-                                                    color: '#fbbd08',
-                                                    textAlign: 'right'
-                                                }}>
-                                                    {teamA?.name || match.teamA}
-                                                </span>
-                                                <span style={{ fontSize: '2rem' }}>{teamA?.logo || '⚽'}</span>
-                                            </div>
+                    return (
+                        <div key={match.id} className="glass-card animate-fade-up" style={{
+                            padding: '1.25rem',
+                            display: 'grid',
+                            gridTemplateColumns: '80px 1fr 120px',
+                            alignItems: 'center',
+                            gap: '1rem',
+                            borderLeft: match.status === 'Live' ? '4px solid #ff4444' : '4px solid rgba(255,255,255,0.1)'
+                        }}>
+                            {/* Date Column */}
+                            <div style={{ textAlign: 'center', borderRight: '1px solid rgba(255,255,255,0.05)', paddingRight: '1rem' }}>
+                                <div style={{ fontSize: '1rem', fontWeight: 'bold', color: '#fff' }}>{formattedDate}</div>
+                                <div style={{ fontSize: '0.8rem', color: '#666' }}>{match.time}</div>
+                            </div>
 
-                                            {/* Score */}
-                                            <div style={{
-                                                display: 'flex',
-                                                alignItems: 'center',
-                                                gap: '12px',
-                                                minWidth: '100px',
-                                                justifyContent: 'center'
-                                            }}>
-                                                <span style={{ fontSize: '1.8rem', fontWeight: '900', color: '#fff' }}>{match.scoreA ?? '-'}</span>
-                                                <span style={{ color: '#444', fontWeight: 'bold' }}>vs</span>
-                                                <span style={{ fontSize: '1.8rem', fontWeight: '900', color: '#fff' }}>{match.scoreB ?? '-'}</span>
-                                            </div>
+                            {/* Versus Column */}
+                            <div className="match-versus" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '1rem' }}>
+                                <div style={{ flex: 1, display: 'flex', alignItems: 'center', gap: '0.75rem', justifyContent: 'flex-end' }}>
+                                    <span className="team-name" style={{ fontFamily: 'var(--font-heading)', fontSize: '1.2rem', color: match.scoreA > match.scoreB ? '#fbbd08' : '#fff', textAlign: 'right' }}>
+                                        {teamA?.name || match.teamA}
+                                    </span>
+                                    <span style={{ fontSize: '1.5rem' }}>{teamA?.logo || '⚽'}</span>
+                                </div>
 
-                                            {/* Visitante */}
-                                            <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', flex: 1, justifyContent: 'flex-start' }}>
-                                                <span style={{ fontSize: '2rem' }}>{teamB?.logo || '⚽'}</span>
-                                                <span style={{
-                                                    fontFamily: 'var(--font-heading)',
-                                                    fontSize: '1.4rem',
-                                                    color: '#fff',
-                                                    textAlign: 'left'
-                                                }}>
-                                                    {teamB?.name || match.teamB}
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td style={{ padding: '1.5rem 1.2rem', textAlign: 'right', color: '#888', textTransform: 'uppercase', fontSize: '0.8rem', fontWeight: 'bold', letterSpacing: '0.5px' }}>
-                                        {match.status === 'Live' ? <span style={{ color: '#ff4444' }}>● En Vivo</span> :
-                                            match.status === 'Finished' ? 'Finalizado' : 'Próximamente'}
-                                    </td>
-                                </tr>
-                            );
-                        })}
-                    </tbody>
-                </table>
+                                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', minWidth: '80px', justifyContent: 'center', background: 'rgba(0,0,0,0.3)', padding: '4px 12px', borderRadius: '4px' }}>
+                                    <span style={{ fontSize: '1.4rem', fontWeight: '900', color: '#fff' }}>{match.scoreA ?? '-'}</span>
+                                    <span style={{ color: '#444', fontWeight: 'bold', fontSize: '0.8rem' }}>VS</span>
+                                    <span style={{ fontSize: '1.4rem', fontWeight: '900', color: '#fff' }}>{match.scoreB ?? '-'}</span>
+                                </div>
+
+                                <div style={{ flex: 1, display: 'flex', alignItems: 'center', gap: '0.75rem', justifyContent: 'flex-start' }}>
+                                    <span style={{ fontSize: '1.5rem' }}>{teamB?.logo || '⚽'}</span>
+                                    <span className="team-name" style={{ fontFamily: 'var(--font-heading)', fontSize: '1.2rem', color: match.scoreB > match.scoreA ? '#fbbd08' : '#fff' }}>
+                                        {teamB?.name || match.teamB}
+                                    </span>
+                                </div>
+                            </div>
+
+                            {/* Status Column */}
+                            <div style={{ textAlign: 'right' }}>
+                                <span style={{
+                                    padding: '4px 12px',
+                                    borderRadius: '20px',
+                                    fontSize: '0.7rem',
+                                    fontWeight: 'bold',
+                                    textTransform: 'uppercase',
+                                    background: match.status === 'Live' ? 'rgba(255,68,68,0.1)' : 'rgba(255,255,255,0.05)',
+                                    color: match.status === 'Live' ? '#ff4444' : '#666',
+                                    border: match.status === 'Live' ? '1px solid #ff4444' : '1px solid rgba(255,255,255,0.1)'
+                                }}>
+                                    {match.status === 'Live' ? '● En Vivo' : match.status === 'Finished' ? 'Finalizado' : 'Próximamente'}
+                                </span>
+                            </div>
+
+                            {/* Mobile Styles (Internal via style tag for simplicity in this move) */}
+                            <style>{`
+                                @media (max-width: 768px) {
+                                    .matches-grid > div {
+                                        grid-template-columns: 1fr !important;
+                                        text-align: center !important;
+                                        gap: 1rem !important;
+                                    }
+                                    .matches-grid > div > div {
+                                        border: none !important;
+                                        padding: 0 !important;
+                                        justify-content: center !important;
+                                        text-align: center !important;
+                                    }
+                                    .team-name {
+                                        font-size: 1.1rem !important;
+                                    }
+                                    .match-versus {
+                                        flex-direction: row !important;
+                                        width: 100%;
+                                    }
+                                }
+                                @media (max-width: 480px) {
+                                    .match-versus {
+                                        flex-direction: column !important;
+                                        gap: 0.5rem !important;
+                                    }
+                                    .match-versus > div {
+                                        justify-content: center !important;
+                                        width: 100%;
+                                    }
+                                }
+                            `}</style>
+                        </div>
+                    );
+                })}
                 {filteredMatches.length === 0 && (
                     <div style={{ textAlign: 'center', padding: '3rem', color: '#444' }}>
                         No hay partidos programados para esta temporada.

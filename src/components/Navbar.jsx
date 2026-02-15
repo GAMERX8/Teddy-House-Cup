@@ -4,6 +4,8 @@ import { subscribeToSettings, subscribeToPlayers, subscribeToTeams } from '../se
 import { Trophy, X, Calendar, Clock, Award } from 'lucide-react';
 import './Navbar.css';
 import apkFile from '../assets/TH Cards.apk';
+import mvpCard from '../assets/MVP.png';
+import thLogo from '../assets/TH LOGO.png';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -120,7 +122,7 @@ const Navbar = () => {
               onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
             >
               <Trophy size={16} style={{ marginRight: '6px' }} />
-              Votar MVP
+              <span className="btn-label">Votar MVP</span>
             </button>
           )}
 
@@ -145,21 +147,21 @@ const Navbar = () => {
               onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
             >
               <Trophy size={16} style={{ marginRight: '8px' }} />
-              MVP: {settings.winner.name || 'GANADOR'}
+              <span className="btn-label">MVP: {settings.winner.name || 'GANADOR'}</span>
             </div>
           )}
           <button className="btn-action btn-twitch" onClick={() => setShowLiveModal(true)}>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style={{ marginRight: '6px' }}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
               <path d="M11.571 4.714h1.715v5.143H11.57zm4.715 0H18v5.143h-1.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714Z" />
             </svg>
-            Directo
+            <span className="btn-label">Directo</span>
           </button>
           <button className="btn-action btn-tickets" onClick={() => setShowAppModal(true)}>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style={{ marginRight: '6px' }}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
               <path d="M4 4v16h16V4H4zm14 14H6V6h12v12z" />
               <path d="M14.5 10a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3zm-5 0a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3zm5 7a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3zm-5 0a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z" />
             </svg>
-            App Oficial
+            <span className="btn-label">App Oficial</span>
           </button>
         </div>
       </div>
@@ -396,7 +398,7 @@ const Navbar = () => {
         </div>
       )}
 
-      {/* Winner Modal (FIFA Card Style) */}
+      {/* Winner Modal (MVP Card Style) */}
       {showWinnerModal && settings.winner && (
         <div
           style={{
@@ -405,8 +407,8 @@ const Navbar = () => {
             left: 0,
             width: '100vw',
             height: '100vh',
-            background: 'rgba(0,0,0,0.85)',
-            backdropFilter: 'blur(8px)',
+            background: 'rgba(0,0,0,0.92)',
+            backdropFilter: 'blur(10px)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
@@ -420,29 +422,6 @@ const Navbar = () => {
             const winnerId = settings.winner?.id;
             const player = players.find(p => String(p.id) === String(winnerId));
 
-            // Robust Team Lookup
-            const teamRef = String(player?.equipo || player?.teamId || '').trim();
-            const tid = teamRef.toLowerCase();
-            const team = teams.find(t =>
-              String(t.id).trim() === teamRef ||
-              String(t.id).toLowerCase().includes(tid) ||
-              (tid.length > 5 && String(t.id).toLowerCase().includes(tid.substring(0, 5))) ||
-              String(t.name || '').toLowerCase() === tid ||
-              String(t.nombre || '').toLowerCase() === tid
-            );
-
-            // Determine Name with absolute fallbacks
-            let teamName = 'SIN EQUIPO';
-            if (team && (team.nombre || team.name)) {
-              teamName = (team.nombre || team.name).toUpperCase();
-            } else {
-              if (tid.includes('1m2n9q') || tid.includes('fantasma')) teamName = 'FANTASMAS FC';
-              else if (tid.includes('71x3ry') || tid.includes('coloquio')) teamName = 'COLOQUIOS FC';
-              else if (player?.nombreEquipo) teamName = player.nombreEquipo.toUpperCase();
-              else if (player?.equipoNombre) teamName = player.equipoNombre.toUpperCase();
-              else teamName = teamRef.toUpperCase() || 'SIN EQUIPO';
-            }
-
             if (!player) return (
               <div className="glass-panel" style={{ padding: '2rem', textAlign: 'center', maxWidth: '400px', margin: 'auto' }}>
                 <Trophy size={48} color="#fbbd08" style={{ marginBottom: '1rem' }} />
@@ -451,139 +430,105 @@ const Navbar = () => {
               </div>
             );
 
-            // Same styling logic as Jugadores.jsx
             const playerImage = player.imagenJugador || player.image;
             const playerName = player.nombre || player.name || 'Unknown';
             const playerPosition = player.posicion || player.position || 'Jugador';
             const rating = player.ovr || player.rating || '-';
-            const teamLogo = player.escudoEquipo || team?.logo;
-            // Premium Gold Card Theme (Ballon d'Or Style)
-            const goldColor = '#D4AF37'; // Classic Gold
-            const highlightGold = '#F9F295'; // Shimmer Gold
-            const deepGold = '#996515'; // Metallic Gold
 
-            const modalBg = 'linear-gradient(145deg, #0d0d0d 0%, #1a1a1a 100%)';
-            const goldGradient = `linear-gradient(135deg, ${goldColor}, ${highlightGold}, ${deepGold}, ${goldColor})`;
-            const modalText = '#fff';
-            const subText = '#aaa';
-            const itemBg = 'rgba(255,255,255,0.03)';
+            // Robust Team Lookup
+            const teamRef = String(player?.equipo || player?.teamId || '').trim();
+            const tid = teamRef.toLowerCase();
+            const team = teams.find(t =>
+              String(t.id).trim() === teamRef ||
+              String(t.id).toLowerCase().includes(tid) ||
+              String(t.name || '').toLowerCase() === tid ||
+              String(t.nombre || '').toLowerCase() === tid
+            );
+            const teamLogo = team?.logo || player.escudoEquipo;
+
+            const stats = [
+              { label: 'PAC', value: (player.stats || {}).pac || player.pac || '??' },
+              { label: 'SHO', value: (player.stats || {}).sho || player.sho || '??' },
+              { label: 'PAS', value: (player.stats || {}).pas || player.pas || '??' },
+              { label: 'DRI', value: (player.stats || {}).dri || player.dri || '??' },
+              { label: 'DEF', value: (player.stats || {}).def || player.def || '??' },
+              { label: 'PHY', value: (player.stats || {}).phy || player.phy || '??' }
+            ];
+
+            // Flag logic from database or common names
+            const getFlag = (p) => {
+              if (p.bandera) return p.bandera;
+              if (p.flag) return p.flag;
+              if (p.nacionalidad) return p.nacionalidad;
+
+              const name = (p.nombre || p.name || '').toLowerCase();
+              if (name.includes('griezmann')) return 'https://flagcdn.com/w80/fr.png';
+              if (name.includes('messi')) return 'https://flagcdn.com/w80/ar.png';
+              if (name.includes('ronaldo')) return 'https://flagcdn.com/w80/pt.png';
+              return 'https://flagcdn.com/w80/es.png';
+            };
 
             return (
-              <div
-                style={{
-                  background: modalBg,
-                  color: modalText,
-                  border: '2px solid transparent',
-                  borderImage: `${goldGradient} 1`,
-                  borderRadius: '24px',
-                  width: '100%',
-                  maxWidth: '420px',
-                  position: 'relative',
-                  boxShadow: `0 0 50px rgba(212, 175, 55, 0.15), 0 20px 80px rgba(0,0,0,0.9)`,
-                  animation: 'scaleIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)',
-                  overflow: 'hidden',
-                  border: `2px solid ${goldColor}`
-                }}
-                onClick={e => e.stopPropagation()}
-                className="custom-scrollbar"
-              >
-                {/* Close Button */}
-                <button
-                  onClick={() => setShowWinnerModal(false)}
+              <div className="mvp-winner-modal-content">
+                <h2 className="mvp-congrats-title">
+                  ¡Felicidades <span style={{ color: '#fbbd08' }}>{playerName}</span>!<br />
+                  <span className="mvp-sub-title">Eres el MVP del año</span>
+                </h2>
+
+                <div
+                  className="mvp-card-container"
                   style={{
-                    position: 'absolute', top: '1rem', right: '1rem', zIndex: 10,
-                    background: 'rgba(0,0,0,0.2)', border: 'none', color: modalText,
-                    width: '32px', height: '32px', borderRadius: '50%', cursor: 'pointer',
-                    display: 'flex', alignItems: 'center', justifyContent: 'center'
+                    backgroundImage: `url(${mvpCard})`
                   }}
+                  onClick={e => e.stopPropagation()}
                 >
-                  <X size={20} />
-                </button>
+                  {/* Metallic Shine Effect */}
+                  <div
+                    className="card-shine"
+                    style={{
+                      WebkitMaskImage: `url(${mvpCard})`,
+                      maskImage: `url(${mvpCard})`
+                    }}
+                  />
 
-                {/* Golden Shine Overlay */}
-                <div style={{
-                  position: 'absolute',
-                  top: '-50%',
-                  left: '-50%',
-                  width: '200%',
-                  height: '200%',
-                  background: 'radial-gradient(circle, rgba(251,189,8,0.05) 0%, transparent 70%)',
-                  pointerEvents: 'none',
-                  zIndex: 1
-                }}></div>
+                  {/* Close Button */}
+                  <button
+                    onClick={() => setShowWinnerModal(false)}
+                    style={{
+                      position: 'absolute', top: '10px', right: '10px', zIndex: 10,
+                      background: 'rgba(0,0,0,0.3)', border: 'none', color: '#f9f4e4',
+                      width: '36px', height: '36px', borderRadius: '50%', cursor: 'pointer',
+                      display: 'flex', alignItems: 'center', justifyContent: 'center'
+                    }}
+                  >
+                    <X size={24} />
+                  </button>
 
-                {/* Pattern Overlay */}
-                <div className="player-card-pattern" style={{
-                  position: 'absolute', inset: 0, opacity: 0.2,
-                  background: 'inherit', pointerEvents: 'none'
-                }}></div>
+                  {/* Rating */}
+                  <div className="playercard-rating">{rating}</div>
 
-                {/* Header */}
-                <div style={{
-                  padding: '2.5rem 2rem',
-                  background: 'linear-gradient(135deg, rgba(212, 175, 55, 0.1) 0%, transparent 100%)',
-                  display: 'flex', gap: '1.5rem', alignItems: 'center', position: 'relative', zIndex: 2,
-                  borderBottom: `1px solid rgba(212, 175, 55, 0.2)`
-                }}>
-                  <div style={{ width: '100px', height: '100px', borderRadius: '50%', overflow: 'hidden', border: '3px solid #fbbd08', boxShadow: '0 0 20px rgba(251,189,8,0.3)' }}>
-                    <img src={playerImage} style={{ width: '100%', height: '100%', objectFit: 'cover' }} alt={playerName} />
-                  </div>
-                  <div style={{ flex: 1 }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#D4AF37', marginBottom: '8px' }}>
-                      <Award size={18} />
-                      <span style={{ fontSize: '0.8rem', fontWeight: '900', textTransform: 'uppercase', letterSpacing: '2px' }}>MVP DEL AÑO</span>
+                  {/* Position */}
+                  <div className="playercard-position">{playerPosition}</div>
+
+                  {/* Player Image */}
+                  <img src={playerImage} className="playercard-image" alt={playerName} />
+
+                  {/* Player Name */}
+                  <div className="playercard-name">{playerName}</div>
+
+                  {/* Attributes Row */}
+                  {stats.map((stat, idx) => (
+                    <div key={stat.label} className={`playercard-attr playercard-attr${idx + 1}`}>
+                      <span className="attr-val">{stat.value}</span>
+                      <span className="attr-label">{stat.label}</span>
                     </div>
-                    <h2 style={{ fontFamily: 'var(--font-heading)', margin: 0, fontSize: '2.8rem', lineHeight: '1', color: '#fff' }}>{playerName}</h2>
-                    <p style={{ color: '#D4AF37', margin: '4px 0 0 0', fontWeight: 'bold', fontSize: '1rem', letterSpacing: '1px' }}>{playerPosition}</p>
-                  </div>
-                </div>
+                  ))}
 
-                {/* Stats Container */}
-                <div style={{ padding: '2rem', position: 'relative', zIndex: 2 }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
-                    <h3 style={{ margin: 0, fontSize: '1.2rem', color: '#D4AF37', textTransform: 'uppercase', letterSpacing: '1px' }}>Estadísticas de Élite</h3>
-                    <div style={{ textAlign: 'center' }}>
-                      <div style={{ fontSize: '3rem', fontFamily: 'var(--font-heading)', color: '#D4AF37', lineHeight: 1, textShadow: '0 0 20px rgba(212,175,55,0.4)' }}>{rating}</div>
-                      <div style={{ fontSize: '0.7rem', textTransform: 'uppercase', color: '#888', fontWeight: 'bold' }}>MEDIA</div>
-                    </div>
-                  </div>
-
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
-                    {[['PAC', 'Ritmo'], ['SHO', 'Tiro'], ['PAS', 'Pase'], ['DRI', 'Regate'], ['DEF', 'Defensa'], ['PHY', 'Físico']].map(([key, label]) => (
-                      <div key={key} style={{
-                        display: 'flex',
-                        justifyContent: 'space-between',
-                        alignItems: 'center',
-                        background: 'rgba(212,175,55,0.05)',
-                        padding: '1rem',
-                        borderRadius: '16px',
-                        border: `1px solid rgba(212,175,55,0.1)`,
-                        boxShadow: 'inset 0 0 20px rgba(0,0,0,0.2)'
-                      }}>
-                        <div style={{ display: 'flex', flexDirection: 'column' }}>
-                          <span style={{ fontSize: '0.7rem', fontWeight: '900', color: '#D4AF37' }}>{key}</span>
-                          <span style={{ fontSize: '0.9rem', fontWeight: 'bold', color: '#fff' }}>{label}</span>
-                        </div>
-                        <span style={{ fontFamily: 'var(--font-heading)', fontSize: '1.6rem', color: '#fff' }}>{(player.stats || {})[key.toLowerCase()] || '??'}</span>
-                      </div>
-                    ))}
-                  </div>
-
-                  <div style={{ marginTop: '2.5rem', textAlign: 'center' }}>
-                    <div style={{
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                      gap: '12px',
-                      padding: '10px 24px',
-                      borderRadius: '40px',
-                      background: 'rgba(212,175,55,0.1)',
-                      border: '1.5px solid #D4AF37',
-                      color: '#D4AF37',
-                      boxShadow: '0 4px 20px rgba(212, 175, 55, 0.2)'
-                    }}>
-                      {teamLogo && <img src={teamLogo} style={{ width: '24px', height: '24px', objectFit: 'contain' }} alt="Team" />}
-                      <span style={{ fontWeight: '900', fontSize: '1rem', textTransform: 'uppercase', letterSpacing: '1px' }}>{teamName}</span>
-                    </div>
+                  {/* Bottom Logos Row */}
+                  <div className="playercard-bottom-logos">
+                    <img src={getFlag(player)} className="playercard-flag" alt="Nationality" />
+                    <img src={thLogo} className="playercard-league" alt="League" />
+                    {teamLogo && <img src={teamLogo} className="playercard-team-logo" alt="Team" />}
                   </div>
                 </div>
               </div>
@@ -591,6 +536,7 @@ const Navbar = () => {
           })()}
         </div>
       )}
+
     </nav>
   );
 };

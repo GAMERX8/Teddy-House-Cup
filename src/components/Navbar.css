@@ -165,8 +165,30 @@
   }
 
   .navbar-actions {
+    display: flex;
+    gap: 0.5rem;
+    order: 2;
+  }
+
+  .navbar-toggle {
+    order: 3;
+    padding-left: 0.5rem;
+  }
+
+  .btn-action {
+    padding: 0.5rem !important;
+    min-width: 36px;
+    height: 36px;
+    justify-content: center;
+  }
+
+  .btn-action svg,
+  .btn-action i {
+    margin: 0 !important;
+  }
+
+  .btn-label {
     display: none;
-    /* Optionally move these to the menu for mobile */
   }
 
   .navbar-mobile-actions {
@@ -182,4 +204,292 @@
 /* Default state for desktop */
 .navbar-mobile-actions {
   display: none;
+}
+
+/* MVP Player Card Styles */
+.mvp-card-container {
+  position: relative;
+  width: 100%;
+  max-width: 450px;
+  aspect-ratio: 370 / 544;
+  margin: 0 auto;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  color: #f9f4e4;
+  user-select: none;
+  filter: drop-shadow(0 0 15px rgba(251, 189, 8, 0.4));
+  animation: scaleIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), cardGlowPulse 3s ease-in-out infinite;
+  overflow: hidden;
+  /* Ensure shine doesn't leak before mask hits */
+}
+
+.card-shine {
+  position: absolute;
+  top: 0;
+  left: -150%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(120deg,
+      transparent 30%,
+      rgba(255, 255, 255, 0.1) 40%,
+      rgba(255, 255, 255, 0.4) 50%,
+      rgba(255, 255, 255, 0.1) 60%,
+      transparent 70%);
+  transform: skewX(-20deg);
+  animation: shineSweep 10s infinite;
+  z-index: 1;
+  pointer-events: none;
+  /* Mask to card shape to avoid rectangular shine on transparent corners */
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+
+@keyframes shineSweep {
+  0% {
+    left: -150%;
+  }
+
+  25% {
+    left: 150%;
+  }
+
+  100% {
+    left: 150%;
+  }
+}
+
+@keyframes cardGlowPulse {
+
+  0%,
+  100% {
+    filter: drop-shadow(0 0 15px rgba(251, 189, 8, 0.4));
+  }
+
+  50% {
+    filter: drop-shadow(0 0 30px rgba(251, 189, 8, 0.8));
+  }
+}
+
+.playercard-rating {
+  position: absolute;
+  font-size: 65px;
+  line-height: 65px;
+  font-family: CruyffSansMedium, "Open Sans", sans-serif;
+  top: 23%;
+  /* Adjusted */
+  left: 11.6%;
+  width: 19.8%;
+  text-align: center;
+}
+
+.playercard-position {
+  position: absolute;
+  font-size: 25px;
+  line-height: 38px;
+  font-family: CruyffSansMedium, "Open Sans", sans-serif;
+  top: 32%;
+  /* Adjusted */
+  left: 10.8%;
+  width: 19.8%;
+  text-align: center;
+}
+
+.playercard-name {
+  position: absolute;
+  font-size: 40px;
+  line-height: 48px;
+  font-family: CruyffSansBold, "Open Sans", sans-serif;
+  font-weight: bold;
+  text-align: center;
+  width: 72.6%;
+  height: 9%;
+  top: 63%;
+  /* Moved up */
+  left: 13.4%;
+  white-space: nowrap;
+  overflow: hidden;
+  z-index: 4;
+}
+
+.playercard-attr {
+  position: absolute;
+  font-family: CruyffSansMedium, "Open Sans", sans-serif;
+  font-weight: bold;
+  text-align: center;
+  line-height: normal;
+  z-index: 4;
+  top: 68%;
+  /* Adjusted */
+  width: 13%;
+  height: 15%;
+  display: flex;
+  flex-direction: column-reverse;
+  /* Label on top */
+  align-items: center;
+  justify-content: center;
+}
+
+.playercard-attr .attr-val {
+  font-size: 32px;
+  font-weight: bold;
+  display: block;
+}
+
+.playercard-attr .attr-label {
+  font-size: 20px;
+  text-transform: uppercase;
+  display: block;
+  margin-bottom: 1px;
+}
+
+.playercard-attr1 {
+  left: 13.5%;
+}
+
+.playercard-attr2 {
+  left: 25.5%;
+}
+
+.playercard-attr3 {
+  left: 37.5%;
+}
+
+.playercard-attr4 {
+  left: 49.5%;
+}
+
+.playercard-attr5 {
+  left: 61.5%;
+}
+
+.playercard-attr6 {
+  left: 73.5%;
+}
+
+.playercard-image {
+  position: absolute;
+  top: 10%;
+  right: -1%;
+  width: 80%;
+  height: 55%;
+  object-fit: contain;
+  z-index: 2;
+  mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
+}
+
+.playercard-bottom-logos {
+  position: absolute;
+  bottom: 14%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60%;
+  height: 6%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  z-index: 5;
+}
+
+.playercard-flag {
+  width: 35px;
+  height: 22px;
+  object-fit: cover;
+  border-radius: 2px;
+}
+
+.playercard-league {
+  width: 25px;
+  height: 25px;
+  object-fit: contain;
+}
+
+.playercard-team-logo {
+  width: 30px;
+  height: 30px;
+  object-fit: contain;
+}
+
+/* Responsive MVP Card Adjustments */
+.mvp-winner-modal-content {
+  text-align: center;
+  width: 100%;
+  max-width: 600px;
+  padding: 1rem;
+  box-sizing: border-box;
+}
+
+.mvp-congrats-title {
+  font-family: var(--font-heading);
+  font-size: 2.5rem;
+  color: #f9f4e4;
+  margin-bottom: 1.5rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  text-shadow: 0 0 20px rgba(251, 189, 8, 0.5);
+  animation: fadeUp 0.6s ease;
+  line-height: 1.1;
+}
+
+.mvp-sub-title {
+  font-size: 1.5rem;
+  opacity: 0.9;
+  display: block;
+  margin-top: 5px;
+}
+
+@media (max-width: 500px) {
+  .mvp-congrats-title {
+    font-size: 1.6rem !important;
+    margin-bottom: 1rem !important;
+  }
+
+  .mvp-sub-title {
+    font-size: 1rem !important;
+  }
+
+  /* Shrink card fonts for mobile to avoid crowding */
+  .playercard-rating {
+    font-size: 50px !important;
+    line-height: 50px !important;
+  }
+
+  .playercard-position {
+    font-size: 18px !important;
+    line-height: 30px !important;
+  }
+
+  .playercard-name {
+    font-size: 32px !important;
+    line-height: 1.1 !important;
+  }
+
+  .playercard-attr .attr-val {
+    font-size: 20px !important;
+  }
+
+  .playercard-attr .attr-label {
+    font-size: 12px !important;
+  }
+
+  .playercard-flag {
+    width: 25px !important;
+    height: 16px !important;
+  }
+
+  .playercard-league {
+    width: 20px !important;
+    height: 20px !important;
+  }
+
+  .playercard-team-logo {
+    width: 20px !important;
+    height: 20px !important;
+  }
 }
