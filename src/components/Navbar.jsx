@@ -168,32 +168,8 @@ const Navbar = () => {
 
       {/* Live Broadcast Modal */}
       {showLiveModal && (
-        <div style={{
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          width: '100vw',
-          height: '100vh',
-          background: 'rgba(0,0,0,0.85)',
-          backdropFilter: 'blur(8px)',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          zIndex: 9999,
-          padding: '20px'
-        }} onClick={() => setShowLiveModal(false)}>
-          <div style={{
-            background: '#111',
-            border: '1px solid rgba(169, 112, 255, 0.3)',
-            borderRadius: '24px',
-            padding: '3rem 2rem',
-            maxWidth: '500px',
-            width: '100%',
-            textAlign: 'center',
-            position: 'relative',
-            boxShadow: '0 20px 50px rgba(169, 112, 255, 0.1)',
-            animation: 'fadeUp 0.4s cubic-bezier(0.16, 1, 0.3, 1)'
-          }} onClick={e => e.stopPropagation()}>
+        <div className="modal-overlay" onClick={() => setShowLiveModal(false)}>
+          <div className="modal-panel twitch-modal" onClick={e => e.stopPropagation()}>
             <div style={{
               width: '80px',
               height: '80px',
@@ -262,32 +238,8 @@ const Navbar = () => {
 
       {/* Official App Modal */}
       {showAppModal && (
-        <div style={{
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          width: '100vw',
-          height: '100vh',
-          background: 'rgba(0,0,0,0.85)',
-          backdropFilter: 'blur(8px)',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          zIndex: 9999,
-          padding: '20px'
-        }} onClick={() => setShowAppModal(false)}>
-          <div style={{
-            background: '#111',
-            border: '1px solid rgba(251, 189, 8, 0.3)',
-            borderRadius: '24px',
-            padding: '3rem 2rem',
-            maxWidth: '500px',
-            width: '100%',
-            textAlign: 'center',
-            position: 'relative',
-            boxShadow: '0 20px 50px rgba(251, 189, 8, 0.1)',
-            animation: 'fadeUp 0.4s cubic-bezier(0.16, 1, 0.3, 1)'
-          }} onClick={e => e.stopPropagation()}>
+        <div className="modal-overlay" onClick={() => setShowAppModal(false)}>
+          <div className="modal-panel app-modal" onClick={e => e.stopPropagation()}>
             <div style={{
               width: '80px',
               height: '80px',
