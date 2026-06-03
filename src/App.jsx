@@ -16,6 +16,8 @@ import Votar from './pages/Votar';
 
 import WinnerPopup from './components/WinnerPopup';
 import VotingTimer from './components/VotingTimer';
+import Footer from './components/Footer';
+import Privacidad from './pages/Privacidad';
 
 // Wrapper for the Home page content
 const Home = () => (
@@ -45,7 +47,9 @@ function App() {
           <Route path="/torneo" element={<Torneo />} />
           <Route path="/totm" element={<Totm />} />
           <Route path="/votar" element={<Votar />} />
+          <Route path="/privacidad" element={<Privacidad />} />
         </Routes>
+        <Footer />
       </div>
     </Router>
   );
